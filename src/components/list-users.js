@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
+import {Link} from 'react-router-dom'
+import PropTypes from 'prop-types'
 import sortBy from 'sort-by'
 import escapeRegExp from 'escape-string-regexp'
 
-class ListContacts extends Component {
+class ListUsers extends Component {
     static propTypes = {
         contacts: PropTypes.array.isRequired,
         handleRemoveUser: PropTypes.func.isRequired
     }
-
     state = {
         query: ''
     }
 
+    //Method - To see if the results needed to be filtered or not
     handleQueryChange = (newQuery) => {
         this.setState({
             query: newQuery
@@ -21,7 +22,7 @@ class ListContacts extends Component {
     }
     render() {
         const { contacts, handleRemoveUser } = this.props
-        const {query} = this.state
+        const { query } = this.state
 
         let visibleUsers
         if (query) {
@@ -29,11 +30,9 @@ class ListContacts extends Component {
             //escapeRegExp() -> escape all the special case char in the provided the string
             //'i' -> ignore upper/lower-casing of the characters 
             //'Lakshay-Dutt' will be transformed to 'lakshaydutt'
-
             visibleUsers = contacts.filter((contact) => matchedUsers.test(contact.name))
             //Since matchedUsers is an object of RegExp
             // matchedUsers.test('Lakshay Dutt') will result TRUE
-
         }
         else {
             //if no query is performed -> show all contacts
@@ -52,13 +51,18 @@ class ListContacts extends Component {
                         onChange={(event) => this.handleQueryChange(event.target.value)}>
                     </input>
                     {/* Add user */}
-                    <div className='add-contact'></div>
+                    <Link className='add-contact' to='/create-user'></Link>
                 </div>
                 {visibleUsers.length !== contacts.length && (
                     <div className='showing-contacts'>
                         <span>Showing {visibleUsers.length} out of {contacts.length} total</span>
+                        <button onClick={() => {
+                            //Reset the query to show all users
+                            this.setState({ query: '' })
+                        }}>Show all</button>
                     </div>
                 )}
+
                 <ol className='contact-list'>
                     {visibleUsers.map((contact, index) => (
                         <li key={index} className='contact-list-item'>
@@ -82,4 +86,4 @@ class ListContacts extends Component {
         );
     }
 }
-export default ListContacts;
+export default ListUsers;

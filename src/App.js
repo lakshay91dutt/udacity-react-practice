@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 //import * as ContactsAPI from './util/contacts-api'
-import ListContacts from './components/list-contacts'
+import ListUsers from './components/list-users'
+import CreateUser from './components/create-user';
+import { Route } from 'react-router-dom'
+
 
 class App extends Component {
   state = {
@@ -45,13 +48,29 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ListContacts
-          contacts={this.state.contacts}
-          handleRemoveUser={this.removeContact}>
-        </ListContacts>
+        <Route exact path='/' render={() =>
+          <ListUsers
+            contacts={this.state.contacts}
+            handleRemoveUser={this.removeContact}>
+          </ListUsers>
+        }>
+        </Route>
+        <Route path='/create-user' render={()=> <CreateUser></CreateUser>}></Route>
       </div>
     );
   }
 }
 
 export default App;
+
+
+/*
+  Note: In order to user react-router-dom
+  1. Wrap <App.js/> in index.js with <BrowserRouter><App/></BrowserRouter>
+  2. Replace the <a>Anchor tags</a> with <Link>Component from react-router-dom</Link>
+  3. Use the <Route>Component to wrap the new page components</Route>
+
+  Route: Check the url and the path property
+    if url === path:  render(<Component/>)
+
+*/
