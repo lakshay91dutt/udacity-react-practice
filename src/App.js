@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+//import * as ContactsAPI from './util/contacts-api'
 import ListContacts from './components/list-contacts'
 
 class App extends Component {
@@ -18,10 +18,10 @@ class App extends Component {
         'avatarUrl': 'https://cdn4.iconfinder.com/data/icons/mask/512/death-dead-batman-head-face-round-avatar-512.png'
       },
       {
-        'id': 'Amar',
-        'name': 'ZAmar',
-        'email': 'amar@gmail.com',
-        'avatarUrl': 'https://cdn2.iconfinder.com/data/icons/super-hero/154/batman-comics-hero-avatar-head-mask-512.png'
+        'id': 'Nitesh',
+        'name': 'Nitesh',
+        'email': 'nitesh@gmail.com',
+        'avatarUrl': 'https://media.licdn.com/dms/image/C4D03AQHwabyOx3EubA/profile-displayphoto-shrink_800_800/0?e=1555545600&v=beta&t=PBCesZ90yaUt1WuL9dnxrvKfKwpHOJIHrpp999mSlC8'
       },
       {
         'id': 'manish',
@@ -32,6 +32,9 @@ class App extends Component {
     ]
   }
 
+  // componentDidMount() {
+  //   ContactsAPI.getAll().then((contacts) => this.setState({ contacts }))
+  // }
   removeContact = (delContact) => {
     this.setState((state) => ({
       contacts: state.contacts.filter(element => element.id !== delContact.id)

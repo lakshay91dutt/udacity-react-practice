@@ -18,24 +18,26 @@ class ListContacts extends Component {
         this.setState({
             query: newQuery
         })
-
     }
     render() {
+        const { contacts, handleRemoveUser } = this.props
+        const {query} = this.state
+
         let visibleUsers
-        if (this.state.query) {
-            const matchedUsers = new RegExp(escapeRegExp(this.state.query), 'i')
+        if (query) {
+            const matchedUsers = new RegExp(escapeRegExp(query), 'i')
             //escapeRegExp() -> escape all the special case char in the provided the string
             //'i' -> ignore upper/lower-casing of the characters 
             //'Lakshay-Dutt' will be transformed to 'lakshaydutt'
 
-            visibleUsers = this.props.contacts.filter((contact) => matchedUsers.test(contact.name))
+            visibleUsers = contacts.filter((contact) => matchedUsers.test(contact.name))
             //Since matchedUsers is an object of RegExp
             // matchedUsers.test('Lakshay Dutt') will result TRUE
-            
+
         }
         else {
             //if no query is performed -> show all contacts
-            visibleUsers = this.props.contacts
+            visibleUsers = contacts
         }
 
         visibleUsers.sort(sortBy('name'))
@@ -46,13 +48,17 @@ class ListContacts extends Component {
                     {/* Search Panel */}
                     <input
                         type='text' placeholder='Search Employee' autoFocus
-                        className='search-contacts' value={this.state.query}
+                        className='search-contacts' value={query}
                         onChange={(event) => this.handleQueryChange(event.target.value)}>
                     </input>
                     {/* Add user */}
                     <div className='add-contact'></div>
                 </div>
-
+                {visibleUsers.length !== contacts.length && (
+                    <div className='showing-contacts'>
+                        <span>Showing {visibleUsers.length} out of {contacts.length} total</span>
+                    </div>
+                )}
                 <ol className='contact-list'>
                     {visibleUsers.map((contact, index) => (
                         <li key={index} className='contact-list-item'>
@@ -67,7 +73,7 @@ class ListContacts extends Component {
                             </div>
 
                             {/* Delete user button */}
-                            <button className='contact-remove' onClick={() => this.props.handleRemoveUser(contact)}></button>
+                            <button className='contact-remove' onClick={() => handleRemoveUser(contact)}></button>
 
                         </li>
                     ))}
